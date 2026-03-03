@@ -1,0 +1,519 @@
+/* =========================================
+   VARIABLES Y RESET
+   ========================================= */
+:root {
+  --green-dark:    #1a4731;
+  --green-mid:     #2d6a4f;
+  --green-light:   #40916c;
+  --green-soft:    #74c69d;
+  --gold:          #c9a84c;
+  --gold-light:    #e8c97e;
+  --cream:         #f5f0e8;
+  --cream-dark:    #ede5d0;
+  --text-dark:     #1a2e1a;
+  --text-mid:      #3a5a3a;
+  --text-light:    #6b7280;
+  --white:         #ffffff;
+  --shadow-sm:     0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md:     0 6px 24px rgba(0,0,0,0.12);
+  --shadow-lg:     0 16px 48px rgba(0,0,0,0.18);
+  --radius-sm:     8px;
+  --radius-md:     16px;
+  --radius-lg:     24px;
+  --transition:    all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--green-dark);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+.header {
+  position: relative;
+  background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 55%, var(--green-light) 100%);
+  padding: 0;
+  overflow: hidden;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 50%, rgba(201,168,76,0.15) 0%, transparent 60%),
+    radial-gradient(circle at 90% 20%, rgba(116,198,157,0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Patrón decorativo de puntos */
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+.header-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 32px 72px;
+  z-index: 1;
+}
+
+.logo-wrapper {
+  flex-shrink: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+  box-shadow: 0 0 0 4px rgba(201,168,76,0.25), var(--shadow-lg);
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.header-text {
+  color: var(--white);
+}
+
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.header-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-top: 4px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.header-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.75);
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+}
+
+.header-wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+}
+
+.header-wave svg {
+  display: block;
+  width: 100%;
+  height: 80px;
+}
+
+/* =========================================
+   TOOLBAR: BÚSQUEDA Y ESTADÍSTICAS
+   ========================================= */
+.toolbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 8px;
+}
+
+.stats-bar {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-mid);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.stat-item i {
+  color: var(--green-light);
+  font-size: 16px;
+}
+
+.stat-item strong {
+  color: var(--green-dark);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--green-light);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 48px 14px 48px;
+  border: 2px solid var(--cream-dark);
+  border-radius: 50px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-dark);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--green-light);
+  box-shadow: 0 0 0 4px rgba(64,145,108,0.12), var(--shadow-sm);
+}
+
+.search-input::placeholder { color: #aab; }
+
+.clear-btn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+.clear-btn:hover { color: var(--green-dark); }
+
+.results-info {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-light);
+  min-height: 20px;
+}
+
+/* =========================================
+   GRILLA DE LIBROS
+   ========================================= */
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 28px;
+  max-width: 1200px;
+  margin: 28px auto 60px;
+  padding: 0 24px;
+}
+
+/* =========================================
+   TARJETA DE LIBRO
+   ========================================= */
+.book-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0,0,0,0.06);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+.book-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--green-soft);
+}
+
+/* Ribbon "Ver libro" al hacer hover */
+.book-card::after {
+  content: 'Ver libro →';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  color: var(--white);
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.book-card:hover::after {
+  transform: translateY(0);
+}
+
+/* Contenedor de portada */
+.book-cover-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 140%; /* Proporción de libro */
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--cream), var(--cream-dark));
+}
+
+.book-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .book-cover {
+  transform: scale(1.06);
+}
+
+/* Fallback cuando la imagen no carga */
+.book-cover-fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(145deg, #2d6a4f, #1a4731);
+  color: var(--white);
+  padding: 16px;
+  text-align: center;
+}
+
+.book-cover-fallback i {
+  font-size: 40px;
+  color: var(--gold-light);
+  opacity: 0.85;
+}
+
+.book-cover-fallback span {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 300;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+/* Etiqueta de categoría */
+.book-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--gold);
+  color: var(--white);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 4px 9px;
+  border-radius: 50px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Información del libro */
+.book-info {
+  padding: 14px 14px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.book-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text-dark);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-type {
+  font-size: 11px;
+  color: var(--green-light);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--cream-dark);
+}
+
+.book-type i { font-size: 10px; }
+
+/* =========================================
+   SIN RESULTADOS
+   ========================================= */
+.no-results {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--text-light);
+}
+
+.no-results i { margin-bottom: 20px; color: var(--cream-dark); }
+.no-results p { font-size: 18px; margin-bottom: 20px; }
+
+.no-results button {
+  background: var(--green-mid);
+  color: var(--white);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.no-results button:hover { background: var(--green-dark); }
+
+/* =========================================
+   ANIMACIÓN DE ENTRADA
+   ========================================= */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.book-card {
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+.footer {
+  background: var(--green-dark);
+  color: rgba(255,255,255,0.8);
+  padding: 28px 32px;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  flex-shrink: 0;
+}
+
+.footer-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+.footer-copy {
+  font-size: 12px;
+  margin-top: 4px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* =========================================
+   SCROLLBAR PERSONALIZADA
+   ========================================= */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--green-soft); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-mid); }
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 36px 20px 64px;
+    gap: 20px;
+  }
+
+  .logo-wrapper { width: 90px; height: 90px; }
+
+  .library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 18px;
+    padding: 0 16px;
+  }
+
+  .toolbar { padding: 24px 16px 8px; }
+
+  .stats-bar { gap: 14px; }
+}
+
+@media (max-width: 480px) {
+  .library-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}

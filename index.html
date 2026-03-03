@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca Institucional Innova Food</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-bg"></div>
+    <div class="header-content">
+      <div class="logo-wrapper">
+        <img src="Innova Food.jpeg" alt="Logo Innova Food" class="logo" />
+      </div>
+      <div class="header-text">
+        <h1 class="header-title">Biblioteca Institucional</h1>
+        <h2 class="header-subtitle">Innova Food</h2>
+        <p class="header-desc">Recursos académicos en ciencia y tecnología alimentaria</p>
+      </div>
+    </div>
+    <div class="header-wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f5f0e8"/>
+      </svg>
+    </div>
+  </header>
+
+  <!-- BARRA DE BÚSQUEDA Y ESTADÍSTICAS -->
+  <section class="toolbar">
+    <div class="stats-bar">
+      <div class="stat-item">
+        <i class="fas fa-book-open"></i>
+        <span><strong id="total-books">40</strong> libros disponibles</span>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-flask"></i>
+        <span>Ciencia &amp; Tecnología Alimentaria</span>
+      </div>
+    </div>
+    <div class="search-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="Buscar libro por título..."
+        oninput="filterBooks()"
+      />
+      <button class="clear-btn" onclick="clearSearch()" id="clearBtn" style="display:none">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="results-info" id="resultsInfo"></div>
+  </section>
+
+  <!-- GRILLA DE LIBROS -->
+  <main class="library-grid" id="libraryGrid">
+
+    <!-- Los libros se generan dinámicamente desde script.js -->
+
+  </main>
+
+  <!-- MENSAJE SIN RESULTADOS -->
+  <div class="no-results" id="noResults" style="display:none">
+    <i class="fas fa-search fa-3x"></i>
+    <p>No se encontraron libros con ese título.</p>
+    <button onclick="clearSearch()">Ver todos los libros</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <img src="Innova Food.jpeg" alt="Innova Food" class="footer-logo" />
+      <div class="footer-text">
+        <p class="footer-title">Innova Food</p>
+        <p class="footer-copy">&copy; 2026 · Biblioteca Institucional · Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
