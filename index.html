@@ -9,8 +9,54 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- CryptoJS para hash seguro -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
+
+  <!-- MODAL DE LOGIN -->
+  <div id="loginModal" class="login-modal active">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <i class="fas fa-lock"></i>
+          <h2>Acceso a la Biblioteca</h2>
+          <p>Innova Food</p>
+        </div>
+        
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="passwordInput">Contraseña:</label>
+            <div class="password-input-wrapper">
+              <input 
+                type="password" 
+                id="passwordInput" 
+                placeholder="Ingresa la contraseña" 
+                required
+                autocomplete="off"
+              />
+              <button 
+                type="button" 
+                class="toggle-password" 
+                onclick="togglePasswordVisibility()"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <span id="loginError" class="error-message"></span>
+          </div>
+          
+          <button type="submit" class="login-btn">
+            <i class="fas fa-sign-in-alt"></i> Ingresar
+          </button>
+        </form>
+        
+        <div class="login-footer">
+          <p class="security-note"><i class="fas fa-shield-alt"></i> Acceso protegido</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- HEADER -->
   <header class="header">
@@ -24,6 +70,10 @@
         <h2 class="header-subtitle">Innova Food</h2>
         <p class="header-desc">Recursos académicos en ciencia y tecnología alimentaria</p>
       </div>
+      <button id="logoutBtn" class="logout-btn-header" onclick="handleLogout()" style="display:none" title="Cerrar sesión">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Cerrar sesión</span>
+      </button>
     </div>
     <div class="header-wave">
       <svg viewBox="0 0 1440 80" preserveAspectRatio="none">

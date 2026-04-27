@@ -1,4 +1,182 @@
 // =========================================
+//  SISTEMA DE LOGIN Y AUTENTICACIÓN
+// =========================================
+
+// Hash SHA-256 de la contraseña (no es texto plano)
+const PASSWORD_HASH = '6d29b7bf2cc2c7b141d60631278d9907fdf864ab7c84e396c43d34703f42f58c';
+const SESSION_KEY = 'bibliotecaAutenticada';
+const SESSION_TIMEOUT = 24 * 60 * 60 * 1000; // 24 horas
+
+/**
+ * Verifica si el usuario tiene sesión activa
+ */
+function isUserAuthenticated() {
+  const session = localStorage.getItem(SESSION_KEY);
+  if (!session) return false;
+  
+  const sessionData = JSON.parse(session);
+  const now = Date.now();
+  
+  // Verificar si la sesión ha expirado
+  if (now - sessionData.timestamp > SESSION_TIMEOUT) {
+    localStorage.removeItem(SESSION_KEY);
+    return false;
+  }
+  
+  return true;
+}
+
+/**
+ * Crea una sesión de usuario
+ */
+function createSession() {
+  const sessionData = {
+    timestamp: Date.now(),
+    authenticated: true
+  };
+  localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+}
+
+/**
+ * Cierra la sesión del usuario
+ */
+function handleLogout() {
+  if (confirm('¿Deseas cerrar la sesión?')) {
+    localStorage.removeItem(SESSION_KEY);
+    showLoginModal();
+    document.getElementById('passwordInput').value = '';
+  }
+}
+
+/**
+ * Calcula el hash SHA-256 de un texto
+ */
+async function calculateHash(text) {
+  return CryptoJS.SHA256(text).toString();
+}
+
+/**
+ * Maneja el envío del formulario de login
+ */
+async function handleLogin(event) {
+  event.preventDefault();
+  
+  const passwordInput = document.getElementById('passwordInput');
+  const errorMsg = document.getElementById('loginError');
+  const loginBtn = document.querySelector('.login-btn');
+  const password = passwordInput.value.trim();
+  
+  if (!password) {
+    showError('Por favor ingresa la contraseña', errorMsg);
+    return;
+  }
+  
+  // Deshabilitar botón mientras se valida
+  loginBtn.disabled = true;
+  loginBtn.textContent = '⏳ Validando...';
+  
+  try {
+    // Calcular hash de la contraseña ingresada
+    const inputHash = await calculateHash(password);
+    
+    // Simular pequeño delay para que parezca procesamiento seguro
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Comparar hashes
+    if (inputHash === PASSWORD_HASH) {
+      // Contraseña correcta
+      errorMsg.classList.remove('show');
+      createSession();
+      hideLoginModal();
+      showLogoutButton();
+      // Dar feedback visual
+      loginBtn.innerHTML = '<i class="fas fa-check"></i> ¡Acceso permitido!';
+      setTimeout(() => {
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Ingresar';
+      }, 1500);
+    } else {
+      // Contraseña incorrecta
+      showError('Contraseña incorrecta. Intenta nuevamente.', errorMsg);
+      passwordInput.value = '';
+      passwordInput.focus();
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = '<i class=\"fas fa-sign-in-alt\"></i> Ingresar';
+    }
+  } catch (error) {
+    console.error('Error en validación:', error);
+    showError('Error al validar. Intenta nuevamente.', errorMsg);
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = '<i class=\"fas fa-sign-in-alt\"></i> Ingresar';
+  }
+}
+
+/**
+ * Muestra un error en el login
+ */
+function showError(message, element) {
+  element.textContent = message;
+  element.classList.add('show');
+  setTimeout(() => {
+    element.classList.remove('show');
+  }, 4000);
+}
+
+/**
+ * Muestra el modal de login
+ */
+function showLoginModal() {
+  const modal = document.getElementById('loginModal');
+  modal.classList.remove('hidden');
+}
+
+/**
+ * Oculta el modal de login
+ */
+function hideLoginModal() {
+  const modal = document.getElementById('loginModal');
+  modal.classList.add('hidden');
+}
+
+/**
+ * Muestra el botón de logout
+ */
+function showLogoutButton() {
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.style.display = 'flex';
+  }
+}
+
+/**
+ * Oculta el botón de logout
+ */
+function hideLogoutButton() {
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.style.display = 'none';
+  }
+}
+
+/**
+ * Alterna la visibilidad de la contraseña
+ */
+function togglePasswordVisibility() {
+  const input = document.getElementById('passwordInput');
+  const toggle = document.querySelector('.toggle-password i');
+  
+  if (input.type === 'password') {
+    input.type = 'text';
+    toggle.classList.remove('fa-eye');
+    toggle.classList.add('fa-eye-slash');
+  } else {
+    input.type = 'password';
+    toggle.classList.add('fa-eye');
+    toggle.classList.remove('fa-eye-slash');
+  }
+}
+
+// =========================================
 //  DATOS DE LA BIBLIOTECA
 // =========================================
 
@@ -309,6 +487,18 @@ function clearSearch() {
 //  INICIALIZACIÓN
 // =========================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Verificar autenticación
+  if (!isUserAuthenticated()) {
+    showLoginModal();
+    // Enfocar en el campo de contraseña
+    setTimeout(() => {
+      document.getElementById('passwordInput').focus();
+    }, 100);
+  } else {
+    hideLoginModal();
+    showLogoutButton();
+  }
+  
   // Actualizar contador total
   document.getElementById('total-books').textContent = books.length;
 
